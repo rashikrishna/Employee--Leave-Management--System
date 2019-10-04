@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <div class ="page-header" style="text-align:center">
+      <img style="height: 100px; weidth:150px;" src="{{ url_for('static', filename='150dpi.png') }}" alt="IIIT Bhagalpur"/>
+      <h1 style="color :teal">Indian Institute of Information Technology</h1>
+      <h2><b>Employee Leave System</b></h2>
+    </div>
+    {% block body %}
+    {% endblock %}
+  </body>
+</html>

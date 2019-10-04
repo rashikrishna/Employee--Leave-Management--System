@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}
+Admin Page
+{% endblock %}
+{% block body %}
+
+ {% for list in lists %}
+ <div class="fac_list"><p>
+   <h3><i class="far fa-user"></i> {{list.id}}  </h3>
+   <br>Leave From:{{list.leave_from}} Upto:{{list.leave_upto}}
+   <br><button class="btn" onclick="approve({{list.id}})">Approve</button>  <button class="btn">Disapprove</button>
+</p></div>
+ {% endfor %}
+ <div id="confirmation"></div>
+ {% endblock %}
