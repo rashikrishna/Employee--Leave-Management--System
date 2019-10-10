@@ -79,7 +79,9 @@ def home():
             return render_template("index.html",message=message)
         else :
             session["logged_user"]=username
-            return render_template("home.html",userdetail = query)
+            id = query.id
+            info = db.execute("SELECT * FROM faculty_info WHERE id=:id",{"id":id}).fetchone()
+            return render_template("home.html",userdetail = query,userinfo=info)
 
     else :
         if (db.execute("SELECT * FROM others WHERE userid=:username AND password=:password",{"username":username, "password":password}).fetchone() is None):
@@ -93,10 +95,19 @@ def home():
 def admin():
     ctr = 10;
 
+@app.roue("/rejoin")
+def rejoin():
+    return render_template("rejoin.html")
+
+@app.roue("/rejoin")
+def rejoin():
+    return render_template("leave.html")
+
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
 
 
 if __name__ =="__main__":
