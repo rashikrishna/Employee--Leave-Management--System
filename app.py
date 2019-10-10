@@ -95,13 +95,13 @@ def home():
 def admin():
     ctr = 10;
 
-@app.roue("/rejoin")
+@app.route("/rejoin")
 def rejoin():
-    return render_template("rejoin.html")
+    return render_template("rejoining.html")
 
-@app.roue("/rejoin")
-def rejoin():
-    return render_template("leave.html")
+@app.route("/leave")
+def leave():
+    return render_template("leaveapplication.html")
 
 @app.route("/logout")
 def logout():
