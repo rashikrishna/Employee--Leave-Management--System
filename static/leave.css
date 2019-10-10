@@ -1,0 +1,29 @@
+.text-line {
+    background-color: transparent;
+    color:black;
+    outline: none;
+    outline-style: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: black solid 1px;
+    padding: 3px 5px;
+}
+#img {
+  	background:url(logo.png) no-repeat center;
+  	background-size: 1000px 500px;
+  	margin-right: 20px;
+  	margin-bottom:none;
+	}
+table,th{
+		border: 5px solid black;
+		border-collapse: collapse;
+		}
+th,td{
+		padding:15px;
+	}
+div.cls{
+  text-align: justify;
+  margin:40px;
+  padding: 0;
+}

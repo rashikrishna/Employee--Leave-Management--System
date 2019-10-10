@@ -1,0 +1,27 @@
+table ,th,td{
+		border: 2px solid black;
+		border-collapse: collapse;
+		}
+th,td{
+		padding:5px;
+	}
+body {
+  	background:url(logo.png) no-repeat center
+  	fixed;
+  	background-size: 1000px 500px;
+  	margin-bottom:none;
+	}
+.text-line {
+    background-color: transparent;
+    color:black;
+    outline: none;
+    outline-style: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: black solid 1.5px;
+}
+div.arrange{
+	margin-left: 115px;
+	text-align: left;
+}
