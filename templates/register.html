@@ -3,7 +3,6 @@
 <head>
 	<title>Sign up Page</title>
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style1.css')}}">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
 </head>
@@ -37,7 +36,7 @@
 			<input type="password" placeholder="Confirm password" name="repassword" required autocomplete="off">
 		</div>
   		<br>
-    DEPARTMANT&ensp;:-&ensp;
+    Department:-&ensp;
   <select name="category" placeholder="Select Category">
 		<option value="faculty">FACULTY</option>
 		<option value="admin">ADMIN</option>
@@ -45,7 +44,7 @@
 </select>
 <br><br>
 		<div class="input-group">
-			<button name="OK" class="btn btn-md">Submit</button>
+			<center><button name="OK" class="btn">Submit</button></center>
 		</div>
 		<p>
 			Already a member ? <a href="{{url_for('login')}}">Sign in</a>
