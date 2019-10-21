@@ -14,7 +14,7 @@ Welcome
       <li class="active"><a href="{{url_for('home')}}">Home</a></li>
       <li><a href = "{{url_for('rejoin')}}">Rejoin</a></li>
       <li><a href = "{{url_for('leave')}}">Station Leave</a></li>
-      <li><a href= "#">Leave</a></li>
+      <li><a href= "{{url_for('stationleave')}}">Leave</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href"#"><span class="glyphicon glyphicon-user"></span>{{userdetail.name}}</a></li>
@@ -31,8 +31,6 @@ Welcome
   Faculty Id : {{userdetail.id}}
   <br>
   Faculty Name : {{userdetail.name}}
-  <br>
-  Faculty Contact Info : NaN
   <br>
   Faculty Age : {{userinfo.age}}
   <br>

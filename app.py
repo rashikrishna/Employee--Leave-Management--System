@@ -18,10 +18,8 @@ db = scoped_session(sessionmaker(bind=engine))
 
 notes = []
 #notes.append(note)
-
-@app.route("/", methods=["GET","POST"])
-def index():
-
+@app.route("/register", methods=["POST","GET"])
+def register():
     if request.method == "POST" :
         name = request.form.get('name')
         username = request.form.get('username')
@@ -55,7 +53,15 @@ def index():
     else :
         message=(" ")
 
-    return render_template("index.html",message=message)
+    return render_template("register.html",message=message)
+
+@app.route("/")
+def index():
+    return render_template("slide.html")
+
+@app.route("/login")
+def login():
+    render_template("login.html")
 
 @app.route("/home",methods=["POST"])
 def home():
@@ -70,6 +76,7 @@ def home():
         else :
             session["logged_user"]=username
             lists= db.execute("SELECT * FROM faculty_leave WHERE approved = 0").fetchall()
+            #info = db.execute("SELECT * FROM faculty_info WHERE id=:id",{"id":id}).fetchall()
             return render_template("admin.html",lists=lists)
 
     elif category == "faculty" :
@@ -103,10 +110,24 @@ def rejoin():
 def leave():
     return render_template("leaveapplication.html")
 
+@app.route("/stationleave")
+def stationleave():
+    return render_template("stationleave.html")
+
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
+def sendmail(id):
+    emails = []
+    names = []
+    queries = db.execute("SELECT * FROM faculty WHERE id=:id",{"id":id}).fetchall()
+    for query in queries:
+        emails.append(query.userid)
+        names.append(query.name)
+
+
 
 
 
