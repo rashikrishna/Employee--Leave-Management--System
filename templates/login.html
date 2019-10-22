@@ -12,8 +12,10 @@
   <body style= "font-family: sans-serif;
   background: url(pic.jpg) no-repeat;
   background-size: cover;">
-    <form method="POST">
+    <form  action="{{url_for('home')}}" method="post">
       <h1>Login</h1>
+      <div class="alert-danger" role="alert"><center>{{message}}</center></div>
+
 <div class="login-box">
   <div class="textbox">
     <i class="fas fa-user"></i>
@@ -25,13 +27,13 @@
   </div>
   <br>
     DEPARTMANT&ensp;:-&ensp;
-  <select name="category" placeholder="Select A category">
+  <select name="v_category" placeholder="Select A category">
       <option value="faculty">FACULTY</option>
       <option value="admin">ADMIN</option>
-      <option value="thers">OTHERS</option>
+      <option value="others">OTHERS</option>
 </select>
 <br><br>
-  <input type="button" class="btn" value="Sign_in">
+  <button class="btn">Submit</button>
 <p>
     Not yet a member ? <a href="{{url_for('register')}}">Sign up</a>
 </p>

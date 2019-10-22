@@ -2,7 +2,8 @@
 <html>
 <head>
 	<title>Sign up Page</title>
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style1.css')}}">
++
+-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style1.css')}}">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
 </head>
@@ -29,11 +30,11 @@
 		</div>
 		<div class="textbox">
 			<i class="fas fa-lock"></i>
-			<input type="password" placeholder="Your Password" name="password" required autocomplete="off">
+			<input type="password" placeholder="Your Password" name="password" required autocomplete="off" id="password">
 		</div>
 		<div class="textbox">
 			<i class="fas fa-lock"></i>
-			<input type="password" placeholder="Confirm password" name="repassword" required autocomplete="off">
+			<input type="password" placeholder="Confirm password" name="repassword" required autocomplete="off" id="repassword">
 		</div>
   		<br>
     Department:-&ensp;
@@ -50,5 +51,16 @@
 			Already a member ? <a href="{{url_for('login')}}">Sign in</a>
 		</p>
 	</form>
+	<script>
+		document.addEventListener("DOMContentLoaded",function(){
+			document.getElementById('repassword').keyup = () =>{
+				var password= document.getElementById('password').value;
+				var repassword = document.getElementById('repassword').value;
+				if (password != repassword)
+			};
+
+		})
+
+	</script>
 </body>
 </html>

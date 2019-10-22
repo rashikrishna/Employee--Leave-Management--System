@@ -12,9 +12,12 @@ Welcome
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="{{url_for('home')}}">Home</a></li>
-      <li><a href = "{{url_for('rejoin')}}">Rejoin</a></li>
-      <li><a href = "{{url_for('leave')}}">Station Leave</a></li>
-      <li><a href= "{{url_for('stationleave')}}">Leave</a></li>
+      {% if leaveapplied == 1 %}
+        <div class="blink"><li><a href = "{{url_for('rejoin')}}">Rejoin</a></li></div>
+      {% else %}
+        <div class="blink"><li><a href = "{{url_for('leave')}}">Apply for leave</a></li></div>
+        <li><a href= "{{url_for('stationleave')}}">L</a></li>
+      {% endif %}
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href"#"><span class="glyphicon glyphicon-user"></span>{{userdetail.name}}</a></li>

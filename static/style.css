@@ -65,7 +65,8 @@ form{
 legend{
   color: #fff;
 }
-input{
+
+/*input{
   padding:10px;
   border: none;
   color: #fff;
@@ -74,12 +75,22 @@ input{
   background-color: transparent;
   font-family: 'sans-serif'
 
-}
+}*/
 
+/* Faculty List in admin.html*/
 .fac_list{
   border-radius: 25px;
   border-color: #52b092;
   border-style: solid;
   padding: 35px;
   margin: 25px;
+}
+
+/* Animation used in home.html*/
+.blink{
+  animation-name: blinking 1s linear infinite;
+}
+
+@eyframes blinking{
+  50%{opacity:0;}
 }
