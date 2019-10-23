@@ -88,9 +88,11 @@ legend{
 
 /* Animation used in home.html*/
 .blink{
-  animation-name: blinking 1s linear infinite;
+  animation: 1s linear infinite blinking;
 }
 
 @eyframes blinking{
-  50%{opacity:0;}
+  50% {
+    opacity:0;
+  }
 }
