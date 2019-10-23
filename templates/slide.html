@@ -42,31 +42,32 @@ body {font-family: Verdana, sans-serif;}
 </center>
 
 <div class="mySlides fade">
-   <form>
+     <form  action="{{url_for('home')}}" method="post">
     <center>
       <div style="font-size: 30px; background-color:grey; width: 100vw; color: white; margin-left: -400px; margin-right: -350px; padding: 15px"><b>Login</b></div>
     </center>
 <div class="login-box" style="margin-top: 300px">
-  <div class="textbox">
-    <i class="fas fa-user"></i>
-    <input type="text" placeholder="Username" name="v_username" required>
+    <div class="textbox">
+      <i class="fas fa-user"></i>
+      <input type="text" placeholder="Username" name="v_username" required>
+    </div>
+    <div class="textbox">
+      <i class="fas fa-lock"></i>
+      <input type="password" placeholder="Password" name="v_password">
+    </div>
+    <br>
+      DEPARTMANT&ensp;:-&ensp;
+    <select name="v_category" placeholder="Select A category">
+        <option value="faculty">FACULTY</option>
+        <option value="admin">ADMIN</option>
+        <option value="others">OTHERS</option>
+  </select>
+  <br><br>
+    <button class="btn">Submit</button>
+  <p>
+      Not yet a member ? <a href="{{url_for('register')}}">Sign up</a>
+  </p>
   </div>
-  <div class="textbox">
-    <i class="fas fa-lock"></i>
-    <input type="password" placeholder="Password" name="v_password">
-  </div><br>
-    DEPARTMANT&ensp;:-&ensp;
-  <select dept="">
-<option value="faculty">FACULTY</option>
-<option value="admin">ADMIN</option>
-<option value="thers">OTHERS</option>
-</select>
-<br><br>
-  <input type="button" class="btn" value="Sign in">
-<p>
-    Not yet a member ? <a href="{{url_for('register')}}">Sign up</a>
-</p>
-</div>
 </form>
 </div>
 </div>
