@@ -13,9 +13,9 @@ Welcome
     <ul class="nav navbar-nav">
       <li class="active"><a href="{{url_for('home')}}">Home</a></li>
       {% if leaveapplied == 1 %}
-        <div class="blink"><li><a href = "{{url_for('rejoin')}}">Rejoin</a></li></div>
+        <li><a href = "{{url_for('rejoin')}}">Rejoin</a></li>
       {% else %}
-        <div class="blink"><li><a href = "{{url_for('leave')}}">Apply for leave</a></li></div>
+        <li class="blink"><a href = "{{url_for('leave')}}">Apply for leave</a></li>
       {% endif %}
     </ul>
     <ul class="nav navbar-nav navbar-right">
@@ -39,7 +39,12 @@ Welcome
   Faculty Join Date : {{userinfo.doj}}
   <br>
   Faculty Branch : {{userinfo.branch}}
-  <br>
+  <br><br>
+  <button class="btn">Update</button>
+  <center><p><h3>Kindly Keep Your profile Updated</h3></p></center>
+
+  <script>
+  </script>
 
 
 {% endblock %}

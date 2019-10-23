@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title>Sign up Page</title>
-+
--	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style1.css')}}">
+
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style1.css')}}">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
 </head>
@@ -17,7 +17,7 @@
 
 
 
-		<div class="alert-danger" role="alert"><center>{{message}}</center></div>
+		<div class="alert" role="alert" style="color:#a94442; background-color: #f2dede;border-color: #ebccd1; margin:6px;"><center>{{message}}</center></div>
 		<form action="{{url_for('register')}}" method="post" class="register">
 		<div class="login-box">
 			<div class="textbox">
