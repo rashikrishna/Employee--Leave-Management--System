@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from itsdangerous import URLSafeTimedSerializer
 import smtplib
+import math,random
 
 app = Flask(__name__)
 
@@ -22,23 +23,47 @@ notes = []
 # Python code to illustrate Sending mail from
 # your Gmail account
 
-# creates SMTP session
-s = smtplib.SMTP('smtp.gmail.com', 587)
+def generateotp():
+    digits = "0123456789"
+    OTP =""
+    for i in range(4):
+        OTP+=digits[math.floor(random.random() *10)]
+    return OTP
 
-# start TLS for security
-s.starttls()
+OTP = generateotp()
 
-# Authentication
-s.login("software.engwkze@gmail.com", "softwareengineering@123")
+@app.route("/sendotp", methods=["POST"])
+def sendotp():
+    receiver_email = request.form.get("email_id")
+    if receiver_email is None:
+        return "Please Enter Email FIrst"
+    print(receiver_email)
+    # creates SMTP session
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    # start TLS for security
+    s.starttls()
+    # Authentication
+    s.login("software.engwkze@gmail.com", "April@2017")
+    # message to be sent
+    message = OTP
+    # sending the mail
+    s.sendmail("software.engwkze@gmail.com", receiver_email, message)
+    # terminating the session
+    s.quit()
+    return "OTP has been sent!!"
 
-# message to be sent
-message = "Message_you_need_to_send"
+@app.route("/otpcheck", methods=["POST"])
+def otpcheck():
+    entered_otp = request.form.get("entered_otp")
+    if(entered_otp == OTP):
+        print(entered_otp)
+        return "Successfully Verified"
+    else :
+        return "Incorrect OTP"
 
-# sending the mail
-s.sendmail("rashikrishna16@gmail.com", "arashee.2000@gmail.com", message)
 
-# terminating the session
-s.quit()
+
+
 
 
 @app.route("/register", methods=["POST","GET"])
