@@ -34,12 +34,12 @@
 		<tr>
 			<th rowspan="2" scope="rowgroup"><div style="font-size:20px">2.</th>
 			<th scope="row"><div style="font-size: 21px"><b>Designation</b></div></th>
-			<td colspan="4" scope="colgroup"><input type="text" class="text-line" name="" style="font-size: 15pt"></td>
+			<td colspan="4" scope="colgroup"><input type="text" class="text-line" name="" style="font-size: 15pt" id="position"></td>
 		</tr>
 		<tr>
 			<th scope="row"><div style="font-size: 21px"><b>Dept. / Section / Centre</b></div>
         	</th>
-			<td colspan="4" scope="colgroup"><input type="text" class="text-line" name="" style="font-size: 15pt"></div></td>
+			<td colspan="4" scope="colgroup"><input type="text" class="text-line" name="" style="font-size: 15pt" id="department"></div></td>
 		</tr>
 		<tr>
 			<th><div style="font-size: 20px">3.</div></th>
@@ -51,7 +51,7 @@
 			<td> &emsp; Nature<br><br><input type="text" class="text-line" name="nature" style="font-size: 15pt"></td>
 			<td> &emsp; From<br><br><input type="date" class="text-line" name="leave_from" style="font-size: 15pt"></td>
 			<td> &emsp; To<br><br><input type="date" class="text-line" name="leave_upto" style="font-size: 15pt"></td>
-			<td> &emsp; No. of Days<br><br><input type="number" class="text-line" name="no_of_days" style="font-size: 15pt"></td>
+			<td> &emsp; No. of Days<br><br><input type="number" class="text-line" name="no_of_days" style="font-size: 15pt" id="duration"></td>
 		</tr>
 		<tr>
 			<th rowspan="2" scope="rowgroup"><div style="font-size: 20px" >4.</div></th>
@@ -80,7 +80,7 @@
 		<tr>
 			<th><div style="font-size: 20px" >7.</div></th>
 			<th><div style="font-size: 20px" >Whether Station Leave permission required or not<br></div></th>
-			<td><h3> &emsp; <input type="radio" name="chck" value="yes" id="yes" onclick="EnableDisableTextBox(this)">Yes</h3></td>
+			<td><h3> &emsp; <input type="radio" name="chck" value="yes" id="yes" onclick="myfunc()">Yes</h3></td>
 			<th colspan="2" scope="colgroup">From - To<br><br><input type="text" class="text-line" name="" id="ft" disabled="disabled" placeholder=	"from - to" style="font-size: 15pt">
 			</th>
 			<td><h3> &emsp; <input type="radio" name="chck" value="no" id="no" onclick="EnableDisableTextBox(this)">No</h3></td>
@@ -109,10 +109,10 @@
 		</tr>
 	</table>
 	<br>
-	<button>Submit</button>
+
 	</center>
 
-</form>
+
 	<h3><div class="arrange">11. &emsp; In the event of my resignation, voluntary retirement, dismissal or removal from service or in the event of termination of my
 service,<br> &emsp; &emsp; &emsp; I undertake to refund:<br><br>
 &emsp; &emsp; (a) &emsp; The leave salary drawn for the period of Earned Leave, which would not have been admissible, had that leave not been credited in advance<br><br>
@@ -125,8 +125,8 @@ service,<br> &emsp; &emsp; &emsp; I undertake to refund:<br><br>
 </div>
 </tr><br>
 <h3>
-<div style="text-align: right; margin: 80px;">Emp_No.: <input type="text" class="text-line" name="" style="font-size: 15pt"><br><br>
-Designation : <input type="text" class="text-line" name="" style="font-size: 15pt"><br><br></h3>
+<div style="text-align: right; margin: 80px;">Emp_No.: <input type="text" class="text-line" name="" style="font-size: 15pt" id="emp_id"><br><br>
+Designation : <input type="text" class="text-line" name="" style="font-size: 15pt " id="designation"><br><br></h3>
 </div><br><br><br>
 <div style="border: 2px solid black; margin-left:90px; width:85%;">
 <br>
@@ -134,10 +134,30 @@ Designation : <input type="text" class="text-line" name="" style="font-size: 15p
 <h3><b>Note:-</b>&emsp; &emsp;1.&emsp;All kinds of leave, except Casual Leave should be applied in this form and forwarded to Admn./ Faculty Affairs after recommendation of<br> &emsp; &emsp; &emsp; &emsp; &emsp; the concerned HODs/HOSs/HOCs. Casual Leave should be applied in the CL Card maintained in the respective Dept./Section/Centre.<br><br>
 2.&ensp;In case the leave is requested for Project related work, please mention the Project No. at the top of the application and forward <br>to Dean, R&D through the concerned HOD/HOC/HOS.<br><br>
 *3. &emsp; If the proposed leave is during the semester period, please furnish the details of alternate arrangement for the missed classes.</h3>
-</div>
+</div><br><br>
+<center><h2><button class="btn">Submit</button></h2></center>
+</form>
 </center>
 <script>
 	document.getElementById("name").value = "{{query.name}}";
+	document.getElementById("emp_id").value = "{{query.id}}";
+	document.getElementById("department").value = "{{query.department}}";
+	document.getElementById('position').value = "{{query.position}}";
+	if (document.getElementById('position').value === "None"){
+		document.getElementById('designation').value = "Professor";
+	else {
+		document.getElementById('designation').value = {{query.position}};
+
+	}
+	}
+	function myfunc(){
+		var yes = document.getElementById("yes");
+		var ft = document.getElementById("ft");
+	 ft.disabled = yes.checked ? false : true;
+		if (!ft.disabled) {
+				ft.focus();
+		window.open("{{url_for('stationleave')}}");
+	}
 </script>
 </body>
 </html>

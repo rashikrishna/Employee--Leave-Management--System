@@ -29,6 +29,17 @@
 			<input type="email" placeholder="Enter Your Email" name="username" required value=" " autocomplete="off">
 		</div>
 		<div class="textbox">
+		<i class="far fa-calendar-alt"></i>
+		<input type="number" placeholder="Your Age Here" name="age" required value="" autocomplete="off">
+	</div>
+	<div class="textbox">
+	<i class="far fa-calendar-alt"></i>
+	<input type="text" placeholder="Special Rsponsibilities (like HOD etc)" name="position" required value="" autocomplete="off">
+</div>
+		<input type="radio" name="gender" value="female">Female
+		<input type = "radio" name="gender" value="male">Male
+
+		<div class="textbox">
 			<i class="fas fa-lock"></i>
 			<input type="password" placeholder="Your Password" name="password" required autocomplete="off" id="password">
 		</div>
@@ -36,12 +47,18 @@
 			<i class="fas fa-lock"></i>
 			<input type="password" placeholder="Confirm password" name="repassword" required autocomplete="off" id="repassword">
 		</div>
-  		<br>
-    Department:-&ensp;
+
+    Category:-&ensp;
   <select name="category" placeholder="Select Category">
 		<option value="faculty">FACULTY</option>
 		<option value="admin">ADMIN</option>
 		<option value="others">OTHERS</option>
+</select><br><br>
+Department : <select name = "branch">
+	<option value="CSE">CSE</option>
+	<option value = "ECE">ECE </option>
+	<option value = "MEA">MEA</option>
+	<option value="none">NA</option>
 </select>
 <br><br>
 		<div class="input-group">

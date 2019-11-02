@@ -5,7 +5,9 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from itsdangerous import URLSafeTimedSerializer
 import smtplib
 import math,random
+from email.message import EmailMessage
 
+import os
 app = Flask(__name__)
 
 
@@ -24,34 +26,37 @@ notes = []
 # Python code to illustrate Sending mail from
 # your Gmail account
 
-def generateotp():
-    digits = "0123456789"
-    OTP =""
-    for i in range(4):
-        OTP+=digits[math.floor(random.random() *10)]
-    return OTP
+#def generateotp():
+#    digits = "0123456789"
+#    OTP =""
+#    for i in range(4):
+#        OTP+=digits[math.floor(random.random() *10)]
+#    return OTP
 
-OTP = generateotp()
+#OTP = generateotp()
 
-@app.route("/sendotp", methods=["POST"])
+flag = 0
 def sendotp():
-    receiver_email = request.form.get("email_id")
-    if receiver_email is None:
-        return "Please Enter Email FIrst"
-    print(receiver_email)
-    # creates SMTP session
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-    # start TLS for security
-    s.starttls()
-    # Authentication
-    s.login("software.engwkze@gmail.com", "April@2017")
-    # message to be sent
-    message = OTP
-    # sending the mail
-    s.sendmail("software.engwkze@gmail.com", receiver_email, message)
-    # terminating the session
-    s.quit()
-    return "OTP has been sent!!"
+    EMAIL_ADDRESS = "software.engwkze@gmail.com"
+    EMAIL_PASSWORD = "April@2017"
+
+    contacts = ['surajkr143singh@gmail.com', 'rashikrishna16@example.com']
+
+    msg = EmailMessage()
+    msg['Subject'] = 'Check out Bronx as a puppy!'
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = 'ccprasadashok@gmail.com'
+
+    msg.set_content('This is a plain text email')
+
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        smtp.send_message(msg)
+
+@app.route("/verify", methods=["POST"])
+def verify():
+    flag = int(request.form.get("flag"))
 
 @app.route("/otpcheck", methods=["POST"])
 def otpcheck():
@@ -74,10 +79,21 @@ def register():
         username = request.form.get('username')
         password = request.form.get('password')
         category = request.form.get('category')
+        gender = request.form.get('gender')
+        age = request.form.get('age')
+        branch = request.form.get('branch')
 
         if category == "admin" :
             if (db.execute("SELECT * FROM admin WHERE userid=:username",{"username":username}).fetchone() is None) :
+                #sendotp()
+                #while flag==0:
+                #    pass
+                #print(flag)
                 db.execute("INSERT INTO admin (name,userid,password) VALUES (:name,:username,:password)",{"username":username, "name":name, "password":password})
+                db.commit()
+                query = db.execute("SELECT * FROM admin WHERE userid=:username",{"username":username}).fetchone()
+                id = query.id
+                db.execute("INSERT INTO admin_info (id,name,age,gender) VALUES (:id,:name,:age,:gender)",{"name":name,"id":id,"age":age,"gender":gender})
                 db.commit()
                 message = ("Successfully Registered as Admin")
             else :
@@ -86,6 +102,10 @@ def register():
         elif category == "faculty":
             if (db.execute("SELECT * FROM faculty WHERE userid=:username",{"username":username}).fetchone() is None) :
                 db.execute("INSERT INTO faculty (name,userid,password) VALUES (:name,:username,:password)",{"username":username, "name":name, "password":password})
+                db.commit()
+                query = db.execute("SELECT * FROM faculty WHERE userid=:username",{"username":username}).fetchone()
+                id = query.id
+                db.execute("INSERT INTO faculty_info (id,name,age,department,gender) VALUES (:id,:name,:age,:branch,:gender)",{"name":name,"id":id,"age":age,"branch":branch,"gender":gender})
                 db.commit()
                 message = ("Successfully Registered as faculty")
             else :
@@ -171,9 +191,21 @@ def home():
 def admin():
     ctr = 10;
 
-@app.route("/rejoin")
+@app.route("/rejoin", methods=["POST","GET"])
 def rejoin():
-    return render_template("rejoining.html")
+    user_id = session["id"]
+    if request.method == "POST" :
+        rejoin_date = request.form.get("rejoin_date")
+        if session["category"] == "faculty":
+            db.execute("INSERT INTO faculty_rejoin (rejoin_date,id) VALUES (:rejoin_date,:user_id)",{"rejoin_date":rejoin_date,"user_id":user_id})
+            db.commit()
+            db.execute("DELETE FROM faculty_leave WHERE id=:id",{"id":user_id})
+            db.commit()
+            return "succesfully Submitted"
+    leave_from = db.execute("SELECT leave_from FROM faculty_leave WHERE id =:id",{"id":user_id}).fetchone()
+    leave_upto = db.execute("SELECT leave_upto FROM faculty_leave WHERE id =:id",{"id":user_id}).fetchone()
+    query = db.execute("SELECT * FROM faculty_info WHERE id = :user_id",{"user_id":user_id}).fetchone()
+    return render_template("rejoining.html",info=query,leave_from=leave_from,leave_upto=leave_upto)
 
 @app.route("/leave", methods=["POST","GET"])
 def leave():
