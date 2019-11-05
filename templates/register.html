@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Sign up Page</title>
-
+	<script src="{{url_for('static',filename='script.js')}}"></script>
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style1.css')}}">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
@@ -26,16 +26,17 @@
 		</div>
 		<div class="textbox">
 			<i class="fas fa-envelope"></i>
-			<input type="email" placeholder="Enter Your Email" name="username" required value=" " autocomplete="off">
+			<input type="email" placeholder="Enter Your Email" name="username" required value=" " autocomplete="off" id="username">
+		</div>
+		<div class="textbox">
+			<i class="fas fa-check-circle"></i>
+			<input type="number" placeholder="OTP" name="otp" required value=" " autocomplete="off" id="otp">
+			<input type="button" value="check" onclick="verify()">
 		</div>
 		<div class="textbox">
 		<i class="far fa-calendar-alt"></i>
 		<input type="number" placeholder="Your Age Here" name="age" required value="" autocomplete="off">
 	</div>
-	<div class="textbox">
-	<i class="far fa-calendar-alt"></i>
-	<input type="text" placeholder="Special Rsponsibilities (like HOD etc)" name="position" required value="" autocomplete="off">
-</div>
 		<input type="radio" name="gender" value="female">Female
 		<input type = "radio" name="gender" value="male">Male
 
@@ -54,13 +55,21 @@
 		<option value="admin">ADMIN</option>
 		<option value="others">OTHERS</option>
 </select><br><br>
-Department : <select name = "branch">
+Department : <select name = "branch" id="branch">
 	<option value="CSE">CSE</option>
 	<option value = "ECE">ECE </option>
 	<option value = "MEA">MEA</option>
 	<option value="none">NA</option>
 </select>
 <br><br>
+POSITION : <select name = "position" >
+	<option value="None">None</option>
+	<option value="CAC Incharge">CAC Incharge</option>
+	<option value="HOD MEA">HOD MEA</option>
+	<option value="HOD ECE">HOD ECE</option>
+	<option value="HOD CSE">HOD CSE</option>
+</select><br><br>
+
 		<div class="input-group">
 			<center><button name="OK" class="btn">Submit</button></center>
 		</div>
@@ -74,8 +83,11 @@ Department : <select name = "branch">
 				var password= document.getElementById('password').value;
 				var repassword = document.getElementById('repassword').value;
 				if (password != repassword)
+
 			};
 		})
+
+
 	</script>
 </body>
 </html>

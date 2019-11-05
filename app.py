@@ -26,41 +26,41 @@ notes = []
 # Python code to illustrate Sending mail from
 # your Gmail account
 
-#def generateotp():
-#    digits = "0123456789"
-#    OTP =""
-#    for i in range(4):
-#        OTP+=digits[math.floor(random.random() *10)]
-#    return OTP
+def generateotp():
+    digits = "0123456789"
+    OTP =""
+    for i in range(4):
+        OTP+=digits[math.floor(random.random() *10)]
+    return OTP
 
-#OTP = generateotp()
+OTP = generateotp()
 
-flag = 0
-def sendotp():
+#flag = 0
+def sendotp(sender):
     EMAIL_ADDRESS = "software.engwkze@gmail.com"
     EMAIL_PASSWORD = "April@2017"
 
-    contacts = ['surajkr143singh@gmail.com', 'rashikrishna16@example.com']
+    #contacts = ['surajkr143singh@gmail.com', 'rashikrishna16@example.com']
 
     msg = EmailMessage()
-    msg['Subject'] = 'Check out Bronx as a puppy!'
+    msg['Subject'] = 'Your OTP for '
     msg['From'] = EMAIL_ADDRESS
-    msg['To'] = 'ccprasadashok@gmail.com'
+    msg['To'] = sender
 
-    msg.set_content('This is a plain text email')
-
-
+    msg.set_content(OTP)
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
         smtp.send_message(msg)
 
-@app.route("/verify", methods=["POST"])
-def verify():
-    flag = int(request.form.get("flag"))
+#@app.route("/verify")
+#def verify():
+#    flag = int(request.form.get("flag"))
 
 @app.route("/otpcheck", methods=["POST"])
 def otpcheck():
-    entered_otp = request.form.get("entered_otp")
+    entered_otp = request.form.get("otp")
+    sendotp('sender')
+    sender = request.form.get("sender")
     if(entered_otp == OTP):
         print(entered_otp)
         return "Successfully Verified"
@@ -219,19 +219,19 @@ def rejoin():
             db.commit()
             db.execute("DELETE FROM faculty_leave WHERE id=:id",{"id":user_id})
             db.commit()
-            return "succesfully Submitted"
+            return redirect(url_for("home"))
         elif session["category"] == "admin" :
             db.execute("INSERT INTO admin_rejoin (rejoin_date,id) VALUES (:rejoin_date,:user_id)",{"rejoin_date":rejoin_date,"user_id":user_id})
             db.commit()
             db.execute("DELETE FROM admin_leave WHERE id=:id",{"id":user_id})
             db.commit()
-            return "succesfully Submitted"
+            return redirect(url_for("home"))
         else :
             db.execute("INSERT INTO others_rejoin (rejoin_date,id) VALUES (:rejoin_date,:user_id)",{"rejoin_date":rejoin_date,"user_id":user_id})
             db.commit()
             db.execute("DELETE FROM others_leave WHERE id=:id",{"id":user_id})
             db.commit()
-            return "succesfully Submitted"
+            return redirect(url_for("home"))
     leave_from = db.execute("SELECT leave_from FROM faculty_leave WHERE id =:id",{"id":user_id}).fetchone()
     leave_upto = db.execute("SELECT leave_upto FROM faculty_leave WHERE id =:id",{"id":user_id}).fetchone()
     query = db.execute("SELECT * FROM faculty_info WHERE id = :user_id",{"user_id":user_id}).fetchone()
@@ -253,7 +253,12 @@ def leave():
         if(cat == "faculty"):
             db.execute("INSERT INTO faculty_leave (id,leave_from,leave_upto,approved,no_of_days,reason,nature) VALUES (:idd, :leave_from, :leave_upto, 0,:no_of_days,:reason,:nature)",{"idd":idd,"leave_from":leave_from,"leave_upto":leave_upto,"no_of_days":no_of_days,"nature":nature, "reason":reason})
             db.commit()
-            return "Successfully Submitted"
+            return redirect(url_for("home"))
+        elif(cat == "admin"):
+            db.execute("INSERT INTO admin_leave (id,leave_from,leave_upto,approved,no_of_days,reason,nature) VALUES (:idd, :leave_from, :leave_upto, 0,:no_of_days,:reason,:nature)",{"idd":idd,"leave_from":leave_from,"leave_upto":leave_upto,"no_of_days":no_of_days,"nature":nature, "reason":reason})
+            db.commit()
+            return redirect(url_for("home"))
+
     if(cat=="faculty"):
         query = db.execute("SELECT * FROM faculty_info WHERE id=:id",{"id":id}).fetchone()
     elif(cat=="admin"):

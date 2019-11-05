@@ -7,9 +7,12 @@ function verify(){
         document.querySelector("alert").innerHTML = "Successfully Verified";
       }
   }
+  var otp = document.getElementById('otp');
+  var sender=document.getElementById('username');
   var data = new FormData();
-  data.append('flag',1);
-  xhttp.open("POST","/verify");
+  data.append('otp',otp);
+  data.append('sender',sender);
+  xhttp.open("POST","/otpcheck");
   xhttp.send(data);
 }
 
