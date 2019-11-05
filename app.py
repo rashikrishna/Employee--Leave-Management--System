@@ -82,6 +82,7 @@ def register():
         gender = request.form.get('gender')
         age = request.form.get('age')
         branch = request.form.get('branch')
+        position = request.form.get("position")
 
         if category == "admin" :
             if (db.execute("SELECT * FROM admin WHERE userid=:username",{"username":username}).fetchone() is None) :
@@ -105,7 +106,7 @@ def register():
                 db.commit()
                 query = db.execute("SELECT * FROM faculty WHERE userid=:username",{"username":username}).fetchone()
                 id = query.id
-                db.execute("INSERT INTO faculty_info (id,name,age,department,gender) VALUES (:id,:name,:age,:branch,:gender)",{"name":name,"id":id,"age":age,"branch":branch,"gender":gender})
+                db.execute("INSERT INTO faculty_info (id,name,age,department,gender,position) VALUES (:id,:name,:age,:branch,:gender,:position)",{"name":name,"id":id,"age":age,"branch":branch,"gender":gender,"position":position})
                 db.commit()
                 message = ("Successfully Registered as faculty")
             else :
@@ -133,59 +134,76 @@ def login():
     message = ("")
     return render_template("login.html",message=message)
 
-@app.route("/home",methods=["POST"])
+@app.route("/home",methods=["POST","GET"])
 def home():
-    username =request.form.get("v_username")
-    password = request.form.get("v_password")
-    category = request.form.get("v_category")
+    if request.method == "POST":
+        username =request.form.get("v_username")
+        password = request.form.get("v_password")
+        category = request.form.get("v_category")
 
-    if category == "admin" :
-        query=db.execute("SELECT * FROM admin WHERE userid=:username AND password=:password",{"username":username, "password":password}).fetchone()
-        if (query is None):
-            message = ("Incorrect Username or Password Admin")
-            return render_template("login.html",message=message)
-        else :
-            session["logged_user"]=username
-            session["category"]="admin"
-            session["id"] = query.id
-            id = query.id
-            lists= db.execute("SELECT * FROM faculty_leave WHERE approved = 0").fetchall()
-            #info = db.execute("SELECT * FROM faculty_info WHERE id=:id",{"id":id}).fetchall()
+        if category == "admin" :
+            query=db.execute("SELECT * FROM admin WHERE userid=:username AND password=:password",{"username":username, "password":password}).fetchone()
+            if (query is None):
+                message = ("Incorrect Username or Password Admin")
+                return render_template("login.html",message=message)
+            else :
+                session["logged_user"]=username
+                session["category"]="admin"
+                session["id"] = query.id
+                id = query.id
+                info = db.execute("SELECT * FROM admin_info WHERE id=:id",{"id":id}).fetchone()
+                leave = db.execute("SELECT * FROM admin_leave WHERE id=:id",{"id":id}).fetchone()
+                if (leave is None) :
+                    leaveapplied = 0;
+                else :
+                    leaveapplied = 1;
+                return render_template("home.html",userdetail = query,userinfo=info,leaveapplied=leaveapplied,admin=1)
+
+        elif category == "faculty" :
+            query = db.execute("SELECT * FROM faculty WHERE userid=:username AND password=:password",{"username":username, "password":password}).fetchone()
+            if (query is None):
+                message = ("Incorrect Username or Password faculty")
+                return render_template("login.html",message=message)
+            else :
+                session["logged_user"]=username
+                session["category"] = "faculty"
+                id = query.id
+                session["id"]=id
+                info = db.execute("SELECT * FROM faculty_info WHERE id=:id",{"id":id}).fetchone()
+                leave = db.execute("SELECT * FROM faculty_leave WHERE id=:id",{"id":id}).fetchone()
+                if (leave is None) :
+                    leaveapplied = 0;
+                else :
+                    leaveapplied = 1;
+                if db.execute("SELECT * FROM faculty_info WHERE id=:id AND position iLIKE '%hod%'  ",{"id":id}).fetchone() is None:
+                    hod = 0;
+                else :
+                    hod = 1;
+                return render_template("home.html",userdetail = query,userinfo=info,leaveapplied=leaveapplied,hod=hod,admin=0)
+
+        elif category == "others" :
+            query = db.execute("SELECT * FROM others WHERE userid=:username AND password=:password",{"username":username, "password":password}).fetchone()
+            if (query is None):
+                message = ("Incorrect Username or Password Others")
+                return render_template("login.html",message=message)
+            else :
+                session["logged_user"]=username
+                session["category"]="others"
+                session["id"] = query.id
+                return render_template("home.html",userdetail = query)
+    elif request.method == "GET" :
+        username = session["logged_user"]
+        category = session["category"]
+        id = session["id"]
+        if category == "admin" :
+            query = db.execute("SELECT * FROM admin WHERE id=:id",{"id":id}).fetchone()
+            info = db.execute("SELECT * FROM admin_info WHERE id=:id",{"id":id}).fetchone()
             leave = db.execute("SELECT * FROM admin_leave WHERE id=:id",{"id":id}).fetchone()
             if (leave is None) :
                 leaveapplied = 0;
             else :
                 leaveapplied = 1;
-            return render_template("admin.html",lists=lists,leaveapplied=leaveapplied,userdetail = query)
-
-    elif category == "faculty" :
-        query = db.execute("SELECT * FROM faculty WHERE userid=:username AND password=:password",{"username":username, "password":password}).fetchone()
-        if (query is None):
-            message = ("Incorrect Username or Password faculty")
-            return render_template("login.html",message=message)
-        else :
-            session["logged_user"]=username
-            session["category"] = "faculty"
-            id = query.id
-            session["id"]=id
-            info = db.execute("SELECT * FROM faculty_info WHERE id=:id",{"id":id}).fetchone()
-            leave = db.execute("SELECT * FROM faculty_leave WHERE id=:id",{"id":id}).fetchone()
-            if (leave is None) :
-                leaveapplied = 0;
-            else :
-                leaveapplied = 1;
-            return render_template("home.html",userdetail = query,userinfo=info,leaveapplied=leaveapplied)
-
-    elif category == "others" :
-        query = db.execute("SELECT * FROM others WHERE userid=:username AND password=:password",{"username":username, "password":password}).fetchone()
-        if (query is None):
-            message = ("Incorrect Username or Password Others")
-            return render_template("login.html",message=message)
-        else :
-            session["logged_user"]=username
-            session["category"]="others"
-            session["id"] = query.id
-            return render_template("home.html",userdetail = query)
+            return render_template("home.html",userdetail = query,userinfo=info,leaveapplied=leaveapplied,admin=1)
 
 @app.route("/admin")
 def admin():
@@ -200,6 +218,18 @@ def rejoin():
             db.execute("INSERT INTO faculty_rejoin (rejoin_date,id) VALUES (:rejoin_date,:user_id)",{"rejoin_date":rejoin_date,"user_id":user_id})
             db.commit()
             db.execute("DELETE FROM faculty_leave WHERE id=:id",{"id":user_id})
+            db.commit()
+            return "succesfully Submitted"
+        elif session["category"] == "admin" :
+            db.execute("INSERT INTO admin_rejoin (rejoin_date,id) VALUES (:rejoin_date,:user_id)",{"rejoin_date":rejoin_date,"user_id":user_id})
+            db.commit()
+            db.execute("DELETE FROM admin_leave WHERE id=:id",{"id":user_id})
+            db.commit()
+            return "succesfully Submitted"
+        else :
+            db.execute("INSERT INTO others_rejoin (rejoin_date,id) VALUES (:rejoin_date,:user_id)",{"rejoin_date":rejoin_date,"user_id":user_id})
+            db.commit()
+            db.execute("DELETE FROM others_leave WHERE id=:id",{"id":user_id})
             db.commit()
             return "succesfully Submitted"
     leave_from = db.execute("SELECT leave_from FROM faculty_leave WHERE id =:id",{"id":user_id}).fetchone()
@@ -233,6 +263,28 @@ def leave():
 @app.route("/stationleave")
 def stationleave():
     return render_template("stationleave.html")
+
+@app.route("/list")
+def list():
+    id = session["id"]
+    if session["category"] == "faculty" :
+        info = db.execute("SELECT * FROM faculty_info WHERE id=:id",{"id":id}).fetchone()
+        leave = db.execute("SELECT * FROM faculty_leave WHERE id=:id",{"id":id}).fetchone()
+        if (leave is None) :
+            leaveapplied = 0;
+        else :
+            leaveapplied = 1;
+        lists= db.execute("SELECT * FROM faculty_leave WHERE approved = 0").fetchall()
+    elif session["category"] == "admin" :
+        info = db.execute("SELECT * FROM admin_info WHERE id=:id",{"id":id}).fetchone()
+        leave = db.execute("SELECT * FROM admin_leave WHERE id=:id",{"id":id}).fetchone()
+        if (leave is None) :
+            leaveapplied = 0;
+        else :
+            leaveapplied = 1;
+        lists= db.execute("SELECT * FROM faculty_leave WHERE approved = 0").fetchall()
+
+    return render_template("list.html",leave=leave,info=info,lists=lists)
 
 @app.route("/logout")
 def logout():

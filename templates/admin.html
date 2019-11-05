@@ -15,6 +15,9 @@ Admin Page
       {% else %}
         <li><a href = "{{url_for('leave')}}">Apply for leave</a></li>
       {% endif %}
+
+        <li><a href = "{{url_for('list')}}">List Of Applications</a></li>
+    
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href"#"><span class="glyphicon glyphicon-user"></span>{{userdetail.name}}</a></li>
