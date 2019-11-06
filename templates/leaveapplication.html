@@ -143,13 +143,13 @@ Designation : <input type="text" class="text-line" name="" style="font-size: 15p
 	document.getElementById("emp_id").value = "{{query.id}}";
 	document.getElementById("department").value = "{{query.department}}";
 	document.getElementById('position').value = "{{query.position}}";
-	if (document.getElementById('position').value === "None"){
+	if (document.getElementById('position').value === "None")
 		document.getElementById('designation').value = "Professor";
 	else {
 		document.getElementById('designation').value = {{query.position}};
 
 	}
-	}
+
 	function myfunc(){
 		var yes = document.getElementById("yes");
 		var ft = document.getElementById("ft");
@@ -157,7 +157,7 @@ Designation : <input type="text" class="text-line" name="" style="font-size: 15p
 		if (!ft.disabled) {
 				ft.focus();
 		window.open("{{url_for('stationleave')}}");
-	}
+	}}
 </script>
 </body>
 </html>

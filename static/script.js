@@ -10,7 +10,6 @@ function verify(){
   var otp = document.getElementById('otp');
   var sender=document.getElementById('username');
   var data = new FormData();
-  data.append('otp',otp);
   data.append('sender',sender);
   xhttp.open("POST","/otpcheck");
   xhttp.send(data);

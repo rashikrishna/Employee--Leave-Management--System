@@ -56,16 +56,17 @@ def sendotp(sender):
 #def verify():
 #    flag = int(request.form.get("flag"))
 
-@app.route("/otpcheck", methods=["POST"])
+@app.route("/verify", methods=["POST"])
 def otpcheck():
-    entered_otp = request.form.get("otp")
-    sendotp('sender')
+    #entered_otp = request.form.get("otp")
     sender = request.form.get("sender")
-    if(entered_otp == OTP):
-        print(entered_otp)
-        return "Successfully Verified"
-    else :
-        return "Incorrect OTP"
+    sendotp(sender)
+    #if(entered_otp == OTP):
+    #    print(entered_otp)
+    #    return "Successfully Verified"
+    #else :
+    #    return "Incorrect OTP"
+    return "otp send"
 
 
 
@@ -204,6 +205,15 @@ def home():
             else :
                 leaveapplied = 1;
             return render_template("home.html",userdetail = query,userinfo=info,leaveapplied=leaveapplied,admin=1)
+        elif category == "faculty" :
+                query = db.execute("SELECT * FROM faculty WHERE id=:id",{"id":id}).fetchone()
+                info = db.execute("SELECT * FROM faculty_info WHERE id=:id",{"id":id}).fetchone()
+                leave = db.execute("SELECT * FROM faculty_leave WHERE id=:id",{"id":id}).fetchone()
+                if (leave is None) :
+                    leaveapplied = 0;
+                else :
+                    leaveapplied = 1;
+                return render_template("home.html",userdetail = query,userinfo=info,leaveapplied=leaveapplied,admin=0)
 
 @app.route("/admin")
 def admin():
@@ -253,11 +263,11 @@ def leave():
         if(cat == "faculty"):
             db.execute("INSERT INTO faculty_leave (id,leave_from,leave_upto,approved,no_of_days,reason,nature) VALUES (:idd, :leave_from, :leave_upto, 0,:no_of_days,:reason,:nature)",{"idd":idd,"leave_from":leave_from,"leave_upto":leave_upto,"no_of_days":no_of_days,"nature":nature, "reason":reason})
             db.commit()
-            return redirect(url_for("home"))
+            return redirect(url_for('home'))
         elif(cat == "admin"):
             db.execute("INSERT INTO admin_leave (id,leave_from,leave_upto,approved,no_of_days,reason,nature) VALUES (:idd, :leave_from, :leave_upto, 0,:no_of_days,:reason,:nature)",{"idd":idd,"leave_from":leave_from,"leave_upto":leave_upto,"no_of_days":no_of_days,"nature":nature, "reason":reason})
             db.commit()
-            return redirect(url_for("home"))
+            return redirect(url_for('home'))
 
     if(cat=="faculty"):
         query = db.execute("SELECT * FROM faculty_info WHERE id=:id",{"id":id}).fetchone()
