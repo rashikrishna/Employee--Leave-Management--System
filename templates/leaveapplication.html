@@ -2,8 +2,12 @@
 <title>Leave Appliaction</title>
 <head>
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='leaveapp.css')}}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+	<script src = "{{url_for('static', filename='script1.js')}}"></script>
 </head>
-<body>
+<body id="target">
+	<div id="content">
 	<script type="text/javascript" language="javascript">
 	function EnableDisableTextBox() {
         var yes = document.getElementById("yes");
@@ -135,9 +139,10 @@ Designation : <input type="text" class="text-line" name="" style="font-size: 15p
 2.&ensp;In case the leave is requested for Project related work, please mention the Project No. at the top of the application and forward <br>to Dean, R&D through the concerned HOD/HOC/HOS.<br><br>
 *3. &emsp; If the proposed leave is during the semester period, please furnish the details of alternate arrangement for the missed classes.</h3>
 </div><br><br>
-<center><h2><button class="btn">Submit</button></h2></center>
+<center><h2><input type="submit" id="cmd" value="print"><button class="btn">Submit</button></h2></center>
 </form>
 </center>
+</div>
 <script>
 	document.getElementById("name").value = "{{query.name}}";
 	document.getElementById("emp_id").value = "{{query.id}}";
@@ -146,7 +151,7 @@ Designation : <input type="text" class="text-line" name="" style="font-size: 15p
 	if (document.getElementById('position').value === "None")
 		document.getElementById('designation').value = "Professor";
 	else {
-		document.getElementById('designation').value = {{query.position}};
+		document.getElementById('designation').value = "{{query.position}}";
 
 	}
 
