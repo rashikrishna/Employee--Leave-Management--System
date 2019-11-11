@@ -1,0 +1,19 @@
+h1{text-align: center;
+  color: white;
+  background: rgba(0,0,0,0.5);
+  padding: 15px;
+}
+.text-line {
+    background-color: transparent;
+    color:black;
+    outline: none;
+    outline-style: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: black solid 1.5px;
+}
+
+#otpform{
+  font-size: 35px;
+}

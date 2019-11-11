@@ -1,0 +1,153 @@
+
+
+<html>
+<title>Leave Appliaction</title>
+<head>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+	<script src = "{{url_for('static', filename='script1.js')}}"></script>
+</head>
+
+
+
+<body id="target">
+	<a href="{{url_for('printleave')}}" class="button">Print</a>
+
+	<div id="content">
+
+		<br><br>
+		<div style="font-size: 40px">
+		<u><b>INDIAN INSTITUTE OF INFORMATION TECHNOLOGY BHAGALPUR</b></u></div>
+		<h1><u><b>LEAVE APPLICATION</b></u></h1>
+		<h3>(except Casual Leave, please see note below)</h3><br>
+
+			<div style="font-size: 20px"><b>1. Name of the applicant<b></div>
+			<td><div id="name"></div></td>
+		</tr>
+		<tr>
+			<th><div style="font-size: 21px"><b>2. Designation</b></div></th>
+			<td><div id="position"></div></td>
+		</tr>
+		<tr>
+			<th><div style="font-size: 21px"><b>Dept. / Section / Centre</b></div>
+        	</th>
+			<td><div id="department"></div></td>
+		</tr>
+		<tr>
+			<th><div style="font-size: 21px">3.Nature & Period of Leave
+					(For Spl. CL, Commuted Leave,
+					Maternity Leave, Paternity Leave etc.
+					please attach supporting papers)</div>
+			</th>
+			<td> &emsp; Nature <div id="nature"></div></td><br><br>
+			<td> &emsp; From <div id="leave_from"></div></td><br><br>
+			<td> &emsp; To <div id="leave_upto" style="font-size: 15pt"></div></td><br><br>
+			<td> &emsp; No. of Days<div id="no_of_days"></div></td><br><br>
+		</tr>
+		<tr>
+			<th><div style="font-size: 20px" >4.Holidays,<br>
+				Prefixing / Suffixing</div></th>
+			<td> &emsp; Prefix</td>
+			<td> &emsp; From<br><br><div id="date1"></div></td>
+			<td> &emsp; To<br><br><div id="date2"></div></td>
+			<td> &emsp; No. of Days<br><br><div id="date3"></div></td>
+		</tr>
+			<td> &emsp; Suffix</td>
+			<td> &emsp; From<br><br><div id="date1"></div></td>
+			<td> &emsp; To<br><br><div id="date1"></div></td>
+			<td> &emsp; No. of Days<br><br><div id="date1"></div></td>
+		<tr>
+			<th><div style="font-size: 20px" >Reasons for leave <div id="reason"></div><br></div></th>
+			<td><d</td>
+		</tr>
+			<th><div style="font-size: 20px">6.Whether the applicant proposes to avail of Leave Travel Concession during
+				the ensuing leave. If yes, please submit the Application for LTC (Form
+				No. 11) duly filled in along with this application.</div></th>
+			<th><h3>No</h3></th>
+		</tr>
+		<tr>
+			<th><div style="font-size: 20px" >7.Whether Station Leave permission required or not<br></div></th>
+			<td><h3> &emsp;Yes</h3></td>
+			<th>From - To<br><br>
+			</th>
+			<td><h3> &emsp;No</h3></td>
+		</tr>
+		<tr>
+			<th><div style="font-size: 20px" >8. Are you holding any other position like HOD, HOC, HOS, Warden,
+				Chairman of a Committee etc. If so, please enclose the approval/
+				consent of appropriate authority for the period of leave.</div></th>
+			<th><h3>Yes</h3></th>
+		</tr>
+		<tr>
+			<th><div style="font-size: 20px" >9.Arrangement for classes during the proposed leave (for faculty members)</div></th>
+			<td><h3> &emsp; No. of classes to be missed</h3><br><br><input type="text" class="text-line" name="" style="font-size: 15pt"></td>
+			<td><h3>Alternative Arrangement</h3><br><br></td>
+		</tr>
+		<tr>
+			<th><div style="font-size: 20px" >10.Address while on leave<br></div></th>
+			<td></td>
+		</tr>
+		<tr>
+			<td><h3>Contact Phone No. (if any) </h3><br><br></td>
+		</tr>
+	</table>
+	<br>
+
+
+
+
+	<h3><div class="arrange">11. &emsp; In the event of my resignation, voluntary retirement, dismissal or removal from service or in the event of termination of my
+service,<br> &emsp; &emsp; &emsp; I undertake to refund:<br><br>
+&emsp; &emsp; (a) &emsp; The leave salary drawn for the period of Earned Leave, which would not have been admissible, had that leave not been credited in advance<br><br>
+&emsp; &emsp; (b)  (i) The difference between the leave salary drawn during commuted leave and that admissible during half pay leave.<br><br>
+&emsp; &emsp; &emsp; (ii) The leave salary drawn during leave not due.<br><br><br>
+<h3>&emsp; &emsp; Date : <td>
+<input type="date">
+</td>
+</h3>
+</div>
+</tr><br>
+<h3>
+<div style="text-align: right; margin: 80px;">Emp_No.: <input type="text" class="text-line" name="" style="font-size: 15pt" id="emp_id"><br><br>
+Designation : <div id="designation"></div><br><br></h3>
+</div><br><br><br>
+<div style="border: 2px solid black; margin-left:90px; width:85%;">
+<br>
+<center>
+<h3><b>Note:-</b>&emsp; &emsp;1.&emsp;All kinds of leave, except Casual Leave should be applied in this form and forwarded to Admn./ Faculty Affairs after recommendation of<br> &emsp; &emsp; &emsp; &emsp; &emsp; the concerned HODs/HOSs/HOCs. Casual Leave should be applied in the CL Card maintained in the respective Dept./Section/Centre.<br><br>
+2.&ensp;In case the leave is requested for Project related work, please mention the Project No. at the top of the application and forward <br>to Dean, R&D through the concerned HOD/HOC/HOS.<br><br>
+*3. &emsp; If the proposed leave is during the semester period, please furnish the details of alternate arrangement for the missed classes.</h3>
+</div><br><br>
+
+</center>
+</div>
+
+
+
+
+<script>
+	document.getElementById("name").innerHTML = "{{query.name}}";
+	document.getElementById("emp_id").innerHTML = "{{query.id}}";
+	document.getElementById("department").innerHTML = "{{query.department}}";
+	document.getElementById('position').innerHTML = "{{query.position}}";
+	if (document.getElementById('position').innerHTML === "None")
+		document.getElementById('designation').innerHTML = "Professor";
+	else {
+		document.getElementById('designation').innerHTML = "{{query.position}}";
+
+	}
+	document.getElementById("leave_from").innerHTML = "{{leave_info.leave_from}}";
+	document.getElementById("leave_upto").innerHTML = "{{leave_info.leave_upto}}";
+	document.getElementById("no_of_days").innerHTML = "{{leave_info.no_of_days}}";
+	document.getElementById("nature").innerHTML = "{{leave_info.nature}}";
+	document.getElementById("reason").innerHTML = "{{leave_info.reason}}";
+
+
+
+
+</script>
+
+
+</body>
+</html>
